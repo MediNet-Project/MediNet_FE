@@ -1,0 +1,19 @@
+@import '../Helpers/_variable.scss';
+
+.button-blue {
+    background: $-white-1 !important;
+    color: $-blue-1 !important;
+    transition: all 0.3s !important;
+    &:hover {
+       background: $-gray-2 !important;
+    }
+ }
+
+ .button-red {
+    background: $-white-1 !important;
+    color: $-red-1 !important;
+    transition: all 0.3s !important;
+    &:hover {
+       background: $-gray-2 !important;
+    }
+ }
