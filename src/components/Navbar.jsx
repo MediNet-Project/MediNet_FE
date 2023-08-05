@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { NavLink } from "react-router-dom";
 import logoHorizontal from "../assets/img/logo-horizontal.png";
 import { Input } from "@twilio-paste/core/input";
@@ -10,7 +10,7 @@ import { NotificationIcon } from "@twilio-paste/icons/esm/NotificationIcon";
 import { TranslationIcon } from "@twilio-paste/icons/esm/TranslationIcon";
 import { ThemeIcon } from "@twilio-paste/icons/esm/ThemeIcon";
 import { Badge } from "@twilio-paste/core/badge";
-import { Box } from "@twilio-paste/core/box";
+import { Box, Combobox } from "@twilio-paste/core";
 import {
   UserDialog,
   UserDialogContainer,
@@ -22,101 +22,132 @@ import {
   UserDialogSeparator,
 } from "@twilio-paste/core/user-dialog";
 import { Button } from "@twilio-paste/core";
-
-const Navbar = () => {
+import { useDispatch, useSelector } from "react-redux";
+import { logoutAction } from "../redux/action/user-action";
+import { getUserByIdAction } from "../redux/action/user-action";
+import { useNavigate } from "react-router-dom";
+const Navbar = (props) => {
+  const dispatch = useDispatch();
+  const userSignedIn = useSelector((state) => state.userReducer.userSignedIn);
+  const userDetail = useSelector((state) => state.userReducer.userDetail);
+  const navigate = useNavigate();
+  const userInLocal = JSON.parse(localStorage.getItem("userSignedIn"));
+  console.log(userInLocal);
+  useEffect(() => {
+    if (userSignedIn?.id) {
+      dispatch(getUserByIdAction(Number(userSignedIn?.id)));
+    }
+  }, []);
+  console.log(userSignedIn);
   return (
-    <div className="py-2 px-3 bg-white border-2 border-red-500 h-fit shadow-md shadow-gray-400">
+    <div className="py-2 px-3 rounded-sm bg-white border-2 border-red-500 h-fit shadow-md shadow-gray-400">
       <div className="header flex justify-between mx-auto">
-        <img className="w-40 object-contain" src={logoHorizontal} alt="" />
-        <div className="w-1/3">
-          <Input
-            aria-describedby="display_name_help_text"
-            id="message_title"
-            name="display_name"
-            type="search"
-            placeholder="Searching..."
-            insertAfter={
-              <Button>
-                <SearchIcon
-                  size="sizeIcon40"
-                  decorative={false}
-                  title="Description of icon"
-                  color="#DF3F47"
-                />
-              </Button>
-            }
+        <div
+          onClick={() => {
+            navigate("/home");
+          }}
+        >
+          <img className="w-40 object-contain" src={logoHorizontal} alt="" />
+        </div>
+        <div className="w-1/3 pt-2">
+          <Combobox
+            placeholder="Search"
+            autocomplete
+            insertBefore={<SearchIcon color="colorTextIcon" decorative />}
+            labelText="Search application"
+            hideVisibleLabel
+            items={["one", "two"]}
             onChange={() => {}}
           />
         </div>
-        <p className="text-color-blue mt-4">Welcome, Admin</p>
+        <p className="text-color-blue mt-4">Welcome, {userInLocal?.Role}</p>
         <div className="flex justify-between mt-3">
           <div className="mx-2">
-          <ChatIcon
-            decorative={false}
-            title="Messenger"
-            size="sizeIcon50"
-            color="#1473BB"
-          />
+            <ChatIcon
+              decorative={false}
+              title="Messenger"
+              size="sizeIcon50"
+              color="#1473BB"
+            />
           </div>
-          <div className="mx-2"><NotificationIcon
-            decorative={false}
-            title="Notification"
-            size="sizeIcon50"
-            color="#1473BB"
-          /></div>
-          
-         <div className="mx-2">
-         <UserDialogContainer
-            name="User Name"
-            icon={UserIcon}
-            baseId="i-am-user-dialog"
-          >
-            <UserDialog aria-label="user menu" data-testid="basic-user-dialog">
-              <UserDialogUserInfo>
-                <UserDialogUserName>Name</UserDialogUserName>
-                <UserDialogUserEmail>email@email.com</UserDialogUserEmail>
-              </UserDialogUserInfo>
-              <UserDialogList aria-label="User menu actions">
-                <UserDialogListItem>
-                  <UserIcon decorative />
-                  User settings
-                </UserDialogListItem>
-                <UserDialogSeparator />
-                <UserDialogListItem>
-                  <ThemeIcon decorative />
-                  <Box
-                    width="100%"
-                    display="flex"
-                    justifyContent="space-between"
+          <div className="mx-2">
+            <NotificationIcon
+              decorative={false}
+              title="Notification"
+              size="sizeIcon50"
+              color="#1473BB"
+            />
+          </div>
+
+          <div className="mx-2">
+            <UserDialogContainer
+              name="User Name"
+              icon={UserIcon}
+              baseId="i-am-user-dialog"
+            >
+              <UserDialog
+                aria-label="user menu"
+                data-testid="basic-user-dialog"
+              >
+                <UserDialogUserInfo>
+                  <div>
+                    <UserDialogUserName>
+                      {userInLocal?.UserName}
+                    </UserDialogUserName>
+                  </div>
+                  <div>
+                    <UserDialogUserEmail>
+                      {userInLocal?.Email}
+                    </UserDialogUserEmail>
+                  </div>
+                </UserDialogUserInfo>
+                <UserDialogList aria-label="User menu actions">
+                  <UserDialogListItem>
+                    <UserIcon decorative />
+                    User settings
+                  </UserDialogListItem>
+                  <UserDialogSeparator />
+                  <UserDialogListItem>
+                    <ThemeIcon decorative />
+                    <Box
+                      width="100%"
+                      display="flex"
+                      justifyContent="space-between"
+                    >
+                      Theme
+                      <Badge variant="decorative10" as="span" size="small">
+                        Light
+                      </Badge>
+                    </Box>
+                  </UserDialogListItem>
+                  <UserDialogListItem>
+                    <TranslationIcon decorative />
+                    <Box
+                      width="100%"
+                      display="flex"
+                      justifyContent="space-between"
+                    >
+                      Language
+                      <Badge variant="decorative10" as="span" size="small">
+                        EN
+                      </Badge>
+                    </Box>
+                  </UserDialogListItem>
+                  <UserDialogSeparator />
+                  <div
+                    onClick={() => {
+                      dispatch(logoutAction(navigate));
+                    }}
                   >
-                    Theme
-                    <Badge variant="decorative10" as="span" size="small">
-                      Light
-                    </Badge>
-                  </Box>
-                </UserDialogListItem>
-                <UserDialogListItem>
-                  <TranslationIcon decorative />
-                  <Box
-                    width="100%"
-                    display="flex"
-                    justifyContent="space-between"
-                  >
-                    Language
-                    <Badge variant="decorative10" as="span" size="small">
-                      EN
-                    </Badge>
-                  </Box>
-                </UserDialogListItem>
-                <UserDialogSeparator />
-                <UserDialogListItem href="https://www.google.com">
-                  <LogOutIcon decorative />
-                  Log out
-                </UserDialogListItem>
-              </UserDialogList>
-            </UserDialog>
-          </UserDialogContainer>
-         </div>
+                    <UserDialogListItem>
+                      <LogOutIcon decorative />
+                      Log out
+                    </UserDialogListItem>
+                  </div>
+                </UserDialogList>
+              </UserDialog>
+            </UserDialogContainer>
+          </div>
         </div>
       </div>
     </div>

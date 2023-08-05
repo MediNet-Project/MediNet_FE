@@ -1,61 +1,70 @@
-import React from 'react';
-import ReactDOM from 'react-dom/client';
-import './index.css';
-import './assets/scss/main.scss';
-import App from './App';
-import reportWebVitals from './reportWebVitals';
-import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
-import HomeTemplate from './layouts/HomeTemplate';
-import AdminTemplate from './layouts/AdminTemplate';
-import FormTemplate from './layouts/FormTemplate';
-import Login from './pages/Auth/Login';
-import Home from './pages/Home';
-import Profile from './pages/User/Profile';
-const root = ReactDOM.createRoot(document.getElementById('root'));
+import React from "react";
+import ReactDOM from "react-dom/client";
+import "./index.css";
+import "./assets/scss/main.scss";
+import App from "./App";
+import reportWebVitals from "./reportWebVitals";
+import {
+  BrowserRouter,
+  Routes,
+  Route,
+  Navigate,
+  Switch,
+} from "react-router-dom";
+import HomeTemplate from "./layouts/HomeTemplate";
+import FormTemplate from "./layouts/FormTemplate";
+import Login from "./pages/Auth/Login";
+import Trending from "./pages/Trending";
+import Profile from "./pages/User/Profile";
+import UpdateProfile from "./pages/User/UpdateProfile";
+import HomePage from "./pages/User/HomePage";
+import UserDashboard from "./pages/Admin/User/UserDashboard";
+import CreateUser from "./pages/Admin/User/CreateUser";
+import UpdateUser from "./pages/Admin/User/UpdateUser";
+import FundDashboard from "./pages/Admin/FundDashboard";
+import StatisticDashboard from "./pages/Admin/StatisticDashboard";
+const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
   <>
-  <BrowserRouter>
-           {/* <Provider store={store}> */}
-              <Routes>
-                 <Route
-                    path='/'
-                    element={<App />}
-                 >
-                    <Route element={<HomeTemplate />}>
-                       <Route
-                          index
-                          path='/'
-                          element={<Home />}
-                       />
-                       <Route
-                          index
-                          path='/profile'
-                          element={<Profile />}
-                       />
-                       <Route
-                          path='/*'
-                          element={<Navigate to={'/'} />}
-                       />
-                    </Route>
-                    <Route element={<FormTemplate />}>
-                       <Route
-                          path='/login'
-                          element={<Login />}
-                          lazy={() => import('./pages/Auth/Login')}
-                       />
-                    </Route>
-                    <Route element={<AdminTemplate />}>
-                      
-                      
-                      
-                    </Route>
-                 </Route>
-              </Routes>
-           {/* </Provider> */}
-        
-    
-  </BrowserRouter>
-</>
+    <BrowserRouter>
+      {/* <Provider store={store}> */}
+      <Routes>
+        <Route path="/" element={<App />}>
+          <Route element={<HomeTemplate />}>
+            <Route index path="/" element={<Trending />} />
+            <Route index path="/profile" element={<Profile />} />
+            <Route index path="/profile/update" element={<UpdateProfile />} />
+            <Route path="/home" element={<HomePage />} />
+            <Route index path="/user-dashboard" element={<UserDashboard />} />
+            <Route
+              index
+              path="/user-dashboard/create-user"
+              element={<CreateUser />}
+            />
+            <Route
+              index
+              path="/user-dashboard/update-user"
+              element={<UpdateUser />}
+            />
+            <Route index path="/fund-dashboard" element={<FundDashboard />} />
+            <Route
+              index
+              path="/statistic-dashboard"
+              element={<StatisticDashboard />}
+            />
+          </Route>
+          <Route element={<FormTemplate />}>
+            <Route
+              path="/login"
+              element={<Login />}
+              lazy={() => import("./pages/Auth/Login")}
+            />
+          </Route>
+        </Route>
+      </Routes>
+      {/* </Provider> */}
+    </BrowserRouter>
+  </>
 );
 
 // If you want to start measuring performance in your app, pass a function
