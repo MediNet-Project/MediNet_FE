@@ -9,11 +9,6 @@ import { EmailIcon } from "@twilio-paste/icons/esm/EmailIcon";
 import { ProductKeysIcon } from "@twilio-paste/icons/esm/ProductKeysIcon";
 import { CallIcon } from "@twilio-paste/icons/esm/CallIcon";
 import { useNavigate } from "react-router-dom";
-import {
-  FileUploader,
-  FileUploaderDropzone,
-  FileUploaderDropzoneText,
-} from "@twilio-paste/core/file-uploader";
 import { useFormik } from "formik";
 import { useDispatch } from "react-redux";
 import { createUserAction } from "../../../redux/action/user-action";
@@ -27,7 +22,7 @@ const CreateUser = () => {
       role: "User",
       position: "",
       email: "",
-      password: "",
+      password: "Medinet@123",
       phone: "",
       image: "",
     },
@@ -74,17 +69,6 @@ const CreateUser = () => {
             placeholder="Email Address"
             insertBefore={
               <EmailIcon decorative={false} title="Email Address" />
-            }
-          />
-        </div>
-        <div className="py-3">
-          <Input
-            onChange={formik.handleChange}
-            type="password"
-            name="password"
-            placeholder="Password"
-            insertBefore={
-              <ProductKeysIcon decorative={false} title="Password" />
             }
           />
         </div>

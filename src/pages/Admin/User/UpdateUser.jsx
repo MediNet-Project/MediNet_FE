@@ -25,12 +25,10 @@ const UpdateUser = () => {
       role: "User",
       position: userDetail?.position || "",
       email: userDetail?.email || "",
-      password: userDetail?.password || "",
       phone: userDetail?.phone || "",
     },
     // validationSchema:{}
     onSubmit: (values) => {
-      console.log(values);
       dispatch(updateUserAction(values, navigate));
     },
   });
@@ -69,17 +67,6 @@ const UpdateUser = () => {
             onChange={formik.handleChange}
             insertBefore={
               <EmailIcon decorative={false} title="Email Address" />
-            }
-          />
-        </div>
-        <div className="py-3">
-          <Input
-            type="text"
-            name="password"
-            value={formik?.values?.password}
-            onChange={formik.handleChange}
-            insertBefore={
-              <ProductKeysIcon decorative={false} title="Password" />
             }
           />
         </div>

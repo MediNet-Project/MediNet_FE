@@ -5,15 +5,18 @@ import {
   deleteUserService,
   updateUserService,
   getUserByIdService,
+  changePasswordService,
+  changeAvatarService,
 } from "../../services/endpoints/user-service";
 import {
   getListUserReducer,
   loginReducer,
   logoutReducer,
   getUserByIdReducer,
+  getUserSignedInDetailReducer,
 } from "../reducer/user-reducer";
 import jwt from "jwt-decode";
-
+const userInLocal = JSON.parse(localStorage.getItem("userSignedIn"));
 export const loginAction = (data, navigate) => {
   return async (dispatch) => {
     try {
@@ -22,7 +25,7 @@ export const loginAction = (data, navigate) => {
       localStorage.setItem("refreshToken", result.refreshToken);
       const decodedData = jwt(result.accessToken);
       localStorage.setItem("userSignedIn", JSON.stringify(decodedData));
-      navigate("/home");
+      navigate("/");
       dispatch(loginReducer(result));
     } catch (error) {
       console.log(error);
@@ -61,6 +64,16 @@ export const getUserByIdAction = (id) => {
   };
 };
 
+export const getUserSignedInDetailAction = (id) => {
+  return async (dispatch) => {
+    try {
+      const result = await getUserByIdService(id);
+      dispatch(getUserSignedInDetailReducer(result));
+    } catch (error) {
+      console.log(error);
+    }
+  };
+};
 export const createUserAction = (data, navigate) => {
   return async (dispatch) => {
     try {
@@ -93,11 +106,45 @@ export const updateUserAction = (data, navigate) => {
     try {
       await updateUserService(data);
       const result = await getListUserService();
-      console.log(result);
-      setTimeout(() => {
-        navigate("/user-dashboard");
-      }, 500);
+      if (userInLocal.Role === "Admin") {
+        setTimeout(() => {
+          navigate("/user-dashboard");
+        }, 500);
+      } else {
+        setTimeout(() => {
+          navigate(`/profile/${userInLocal?.Id}`);
+        }, 500);
+      }
+      console.log(userInLocal);
       dispatch(getListUserReducer(result));
+    } catch (error) {
+      console.log(error);
+    }
+  };
+};
+
+export const changePasswordAction = (data, navigate) => {
+  return async (dispatch) => {
+    try {
+      await changePasswordService(data);
+      setTimeout(() => {
+        navigate(`/profile/${userInLocal?.Id}/update`);
+      }, 500);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+};
+
+export const changeAvatarAction = (id, data, navigate) => {
+  return async (dispatch) => {
+    try {
+      await changeAvatarService(data);
+      const result = await getUserByIdService(id);
+      dispatch(getUserByIdReducer(result));
+      // setTimeout(() => {
+      //   navigate(`/profile/${userInLocal?.Id}/update`);
+      // }, 500);
     } catch (error) {
       console.log(error);
     }

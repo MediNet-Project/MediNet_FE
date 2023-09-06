@@ -23,24 +23,24 @@ import {
 } from "@twilio-paste/core/user-dialog";
 import { Button } from "@twilio-paste/core";
 import { useDispatch, useSelector } from "react-redux";
-import { logoutAction } from "../redux/action/user-action";
+import {
+  getUserSignedInDetailAction,
+  logoutAction,
+} from "../redux/action/user-action";
 import { getUserByIdAction } from "../redux/action/user-action";
 import { useNavigate } from "react-router-dom";
 const Navbar = (props) => {
   const dispatch = useDispatch();
   const userSignedIn = useSelector((state) => state.userReducer.userSignedIn);
-  const userDetail = useSelector((state) => state.userReducer.userDetail);
   const navigate = useNavigate();
   const userInLocal = JSON.parse(localStorage.getItem("userSignedIn"));
-  console.log(userInLocal);
   useEffect(() => {
-    if (userSignedIn?.id) {
-      dispatch(getUserByIdAction(Number(userSignedIn?.id)));
+    if (userInLocal) {
+      dispatch(getUserSignedInDetailAction(Number(userInLocal?.Id)));
     }
   }, []);
-  console.log(userSignedIn);
   return (
-    <div className="py-2 px-3 rounded-sm bg-white border-2 border-red-500 h-fit shadow-md shadow-gray-400">
+    <div className="py-2 px-3 w-full rounded-sm bg-white border-2 border-red-500 h-fit shadow-md shadow-gray-400">
       <div className="header flex justify-between mx-auto">
         <div
           onClick={() => {
@@ -60,7 +60,9 @@ const Navbar = (props) => {
             onChange={() => {}}
           />
         </div>
-        <p className="text-color-blue mt-4">Welcome, {userInLocal?.Role}</p>
+        <p className="text-color-blue mt-4">
+          Welcome, {userSignedIn?.userName}
+        </p>
         <div className="flex justify-between mt-3">
           <div className="mx-2">
             <ChatIcon
@@ -81,7 +83,7 @@ const Navbar = (props) => {
 
           <div className="mx-2">
             <UserDialogContainer
-              name="User Name"
+              name="Avatar"
               icon={UserIcon}
               baseId="i-am-user-dialog"
             >
@@ -90,21 +92,17 @@ const Navbar = (props) => {
                 data-testid="basic-user-dialog"
               >
                 <UserDialogUserInfo>
-                  <div>
-                    <UserDialogUserName>
-                      {userInLocal?.UserName}
-                    </UserDialogUserName>
-                  </div>
-                  <div>
-                    <UserDialogUserEmail>
-                      {userInLocal?.Email}
-                    </UserDialogUserEmail>
-                  </div>
+                  <UserDialogUserName>
+                    {userSignedIn?.userName}
+                  </UserDialogUserName>
+                  <UserDialogUserEmail>
+                    {userSignedIn?.email}
+                  </UserDialogUserEmail>
                 </UserDialogUserInfo>
                 <UserDialogList aria-label="User menu actions">
                   <UserDialogListItem>
                     <UserIcon decorative />
-                    User settings
+                    {userSignedIn?.role} settings
                   </UserDialogListItem>
                   <UserDialogSeparator />
                   <UserDialogListItem>

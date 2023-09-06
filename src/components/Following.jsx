@@ -7,7 +7,7 @@ import img from "../assets/img/anh-avatar-facebook-nu-toc-dai-buoc-no.jpg";
 const Following = () => {
   const [followPressed, setFollowPressed] = React.useState(false);
   return (
-    <div className="px-2 w-1/6 bg-[#E5E5E5] rounded-lg flex flex-col items-center">
+    <div className="px-2 py-3 w-full bg-[#E5E5E5] rounded-lg flex flex-col items-center">
       <div className="mx-auto">
         <div className="py-2 w-full">
           <Avatar

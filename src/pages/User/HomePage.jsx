@@ -1,25 +1,36 @@
 import React from "react";
-import { Button } from "@chakra-ui/react";
-import { toast } from "react-toastify";
+import Post from "../../components/Post";
+import CreateNewPost from "../../components/CreateNewPost";
+import RightContent from "../../components/RightContent";
+import { useSelector } from "react-redux";
+import { useEffect } from "react";
+import { useDispatch } from "react-redux";
+import { getListPostAction } from "../../redux/action/post-action";
+
 const HomePage = () => {
+  const dispatch = useDispatch();
+  const listPost = useSelector((state) => state.postReducer.listPost);
+  useEffect(() => {
+    dispatch(getListPostAction());
+  }, []);
+
   return (
-    <div className="px-2">
-      <Button
-        onClick={() => {
-          toast.success("🦄 Wow so easy!", {
-            position: "top-right",
-            autoClose: 5000,
-            hideProgressBar: false,
-            closeOnClick: true,
-            pauseOnHover: true,
-            draggable: true,
-            progress: undefined,
-            theme: "dark",
-          });
-        }}
-      >
-        sadsa
-      </Button>
+    <div className="ml-5 flex">
+      <div className="w-2/3">
+        <CreateNewPost />
+        <div>
+          {listPost?.map((item) => {
+            return (
+              <div className="my-5" key={Math.random()}>
+                <Post item={item} />
+              </div>
+            );
+          })}
+        </div>
+      </div>
+      <div className="w-1/3 h-auto ml-5">
+        <RightContent />
+      </div>
     </div>
   );
 };

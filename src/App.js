@@ -13,7 +13,9 @@ function App() {
       <Theme.Provider theme="default">
         <ChakraProvider>
           <Suspense fallback={<div>Loading...</div>}>
-            <Outlet />
+            <div className="bg-[#E5E5E5]">
+              <Outlet />
+            </div>
             <ToastContainer />
           </Suspense>
         </ChakraProvider>

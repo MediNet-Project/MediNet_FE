@@ -1,13 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit";
 
-let signedIn = "";
-
-if (localStorage.getItem("userSignedIn")) {
-  signedIn = JSON.parse(localStorage.getItem("userSignedIn"));
-}
-
 const initialState = {
-  userSignedIn: signedIn,
+  userSignedIn: {},
   listUser: [],
   userDetail: {},
 };
@@ -24,6 +18,9 @@ const userReducer = createSlice({
       state.listUser = [];
       state.userDetail = {};
     },
+    getUserSignedInDetailReducer: (state, action) => {
+      state.userSignedIn = action.payload;
+    },
     getListUserReducer: (state, action) => {
       state.listUser = action.payload;
     },
@@ -38,6 +35,7 @@ export const {
   logoutReducer,
   getListUserReducer,
   getUserByIdReducer,
+  getUserSignedInDetailReducer,
 } = userReducer.actions;
 
 export default userReducer.reducer;

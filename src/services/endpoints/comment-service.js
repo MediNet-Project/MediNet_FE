@@ -1,12 +1,51 @@
 import { http } from "../interceptor";
 import { toast } from "react-toastify";
-export const loginService = (data) => {
+
+export const createCommentService = (data) => {
   return toast.promise(
-    http.post("/users/login", data),
+    http.post("/comments/create-comment", data),
     {
       pending: "Wait a sec!",
-      success: "Login Success!",
-      error: "Email or Password incorrect!",
+      success: "You have been written comment!",
+      error: "Unexception error!",
+    },
+    {
+      autoClose: 5000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+      theme: "dark",
+    }
+  );
+};
+export const updateCommentService = (data) => {
+  return toast.promise(
+    http.put("/comments/update-comment", data),
+    {
+      pending: "Wait a sec!",
+      success: "Your comment has been updated!",
+      error: "Unexception error!",
+    },
+    {
+      autoClose: 5000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+      theme: "dark",
+    }
+  );
+};
+export const deleteCommentService = (id) => {
+  return toast.promise(
+    http.patch(`/comments/delete-comment/${id}`),
+    {
+      pending: "Wait a sec!",
+      success: "Your comment has been deleted!",
+      error: "Unexception error!",
     },
     {
       autoClose: 5000,
@@ -20,16 +59,12 @@ export const loginService = (data) => {
   );
 };
 
-export const getListUserService = () => {
-  return http.get("/users/get-list-user");
-};
-
-export const createUserService = (data) => {
+export const blockCommentService = (id) => {
   return toast.promise(
-    http.post("/users/create-user", data),
+    http.patch(`/comments/block-comment/${id}`),
     {
       pending: "Wait a sec!",
-      success: "User has been created",
+      success: "Comment has been blocked",
       error: "Unexception error",
     },
     {
@@ -44,75 +79,12 @@ export const createUserService = (data) => {
   );
 };
 
-export const deleteUserService = (id) => {
+export const unBlockCommentService = (id) => {
   return toast.promise(
-    http.patch(`/users/${id}`),
+    http.patch(`/comments/unblock-comment/${id}`),
     {
       pending: "Wait a sec!",
-      success: "User has been deleted",
-      error: "Unexception error",
-    },
-    {
-      autoClose: 5000,
-      hideProgressBar: false,
-      closeOnClick: true,
-      pauseOnHover: true,
-      draggable: true,
-      progress: undefined,
-      theme: "dark",
-    }
-  );
-};
-export const updateUserService = (data) => {
-  return toast.promise(
-    http.put("/users/update-user", data),
-    {
-      pending: "Wait a sec!",
-      success: "User has been updated",
-      error: "Unexception error",
-    },
-    {
-      autoClose: 5000,
-      hideProgressBar: false,
-      closeOnClick: true,
-      pauseOnHover: true,
-      draggable: true,
-      progress: undefined,
-      theme: "dark",
-    }
-  );
-};
-
-export const getUserByIdService = (id) => {
-  return http.get(`/users/get-user-detail/${id}`);
-};
-
-export const changePasswordService = (data) => {
-  return toast.promise(
-    http.patch("/users/reset-password", data),
-    {
-      pending: "Wait a sec!",
-      success: "Change Password success!",
-      error: "Unexception error",
-    },
-    {
-      autoClose: 5000,
-      hideProgressBar: false,
-      closeOnClick: true,
-      pauseOnHover: true,
-      draggable: true,
-      progress: undefined,
-      theme: "dark",
-    }
-  );
-};
-
-export const changeAvatarService = (data) => {
-  return toast.promise(
-    http.put("/users/update-image-user", data),
-    {
-      pending: "Wait a sec!",
-      success: "Change Avatar success!",
+      success: "Comment has been unblocked",
       error: "Unexception error",
     },
     {

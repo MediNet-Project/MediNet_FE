@@ -9,7 +9,7 @@ import { ProductHomeIcon } from "@twilio-paste/icons/esm/ProductHomeIcon";
 import { RoleEnum } from "../utils/enums/RoleEnums";
 
 const SidebarLeft = () => {
-  const [open, setOpen] = useState(false);
+  const userInLocal = JSON.parse(localStorage.getItem("userSignedIn"));
   const adminSideBar = [
     {
       icon: (
@@ -33,7 +33,7 @@ const SidebarLeft = () => {
         />
       ),
       label: "Trending",
-      link: "/trending",
+      link: "/",
     },
     {
       icon: (
@@ -83,7 +83,7 @@ const SidebarLeft = () => {
         />
       ),
       label: "Trending",
-      link: "/trending",
+      link: "/",
     },
     {
       icon: (
@@ -95,7 +95,7 @@ const SidebarLeft = () => {
         />
       ),
       label: "Profile",
-      link: "/profile",
+      link: `/profile/${userInLocal?.Id}`,
     },
     {
       icon: (
@@ -110,8 +110,7 @@ const SidebarLeft = () => {
       link: "/charity-fund",
     },
   ];
-  const userInLocal = JSON.parse(localStorage.getItem("userSignedIn"));
-  console.log(userInLocal);
+
   const renderSideBar = (role) => {
     switch (role) {
       case RoleEnum.Admin:

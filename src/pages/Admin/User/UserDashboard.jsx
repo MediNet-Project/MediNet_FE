@@ -32,15 +32,20 @@ import {
 } from "../../../redux/action/user-action";
 import { useSelector } from "react-redux";
 import img from "../../../assets/img/anh-avatar-facebook-nu-toc-dai-buoc-no.jpg";
-
+import { RoleEnum } from "../../../utils/enums/RoleEnums";
 const UserDashboard = () => {
   const dispatch = useDispatch();
   const { isOpen, onOpen, onClose } = useDisclosure();
   const listUser = useSelector((state) => state.userReducer.listUser);
   const [idToDelete, setIdToDelete] = useState(null);
+  const signedInUser = JSON.parse(localStorage.getItem("userSignedIn"));
   const navigate = useNavigate();
   useEffect(() => {
-    dispatch(getListUserAction());
+    if (signedInUser?.Role === RoleEnum.User) {
+      navigate("/home");
+    } else {
+      dispatch(getListUserAction());
+    }
   }, []);
   const renderModal = () => {
     return (
@@ -93,7 +98,7 @@ const UserDashboard = () => {
                     <Stack orientation="horizontal" spacing="space40">
                       <Avatar
                         size="sizeIcon60"
-                        name="Adam Brown"
+                        name="Avatar"
                         src={item?.image === null ? img : item?.image}
                       />
                       <Box>

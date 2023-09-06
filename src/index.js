@@ -32,8 +32,12 @@ root.render(
         <Route path="/" element={<App />}>
           <Route element={<HomeTemplate />}>
             <Route index path="/" element={<Trending />} />
-            <Route index path="/profile" element={<Profile />} />
-            <Route index path="/profile/update" element={<UpdateProfile />} />
+            <Route index path="/profile/:id" element={<Profile />} />
+            <Route
+              index
+              path="/profile/:id/update"
+              element={<UpdateProfile />}
+            />
             <Route path="/home" element={<HomePage />} />
             <Route index path="/user-dashboard" element={<UserDashboard />} />
             <Route

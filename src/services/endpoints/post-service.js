@@ -1,12 +1,13 @@
 import { http } from "../interceptor";
 import { toast } from "react-toastify";
-export const loginService = (data) => {
+
+export const createPostService = (data) => {
   return toast.promise(
-    http.post("/users/login", data),
+    http.post("/posts/create-post", data),
     {
       pending: "Wait a sec!",
-      success: "Login Success!",
-      error: "Email or Password incorrect!",
+      success: "Post has been created!",
+      error: "Unexception error!",
     },
     {
       autoClose: 5000,
@@ -20,16 +21,24 @@ export const loginService = (data) => {
   );
 };
 
-export const getListUserService = () => {
-  return http.get("/users/get-list-user");
+export const getListPostService = () => {
+  return http.get("/posts/get-list-post");
 };
 
-export const createUserService = (data) => {
+export const getPostByIdService = (id) => {
+  return http.get(`/posts/get-post-detail/${id}`);
+};
+
+export const likePostService = (data) => {
+  return http.put("/posts/reaction-post", data);
+};
+
+export const updatePostService = (data) => {
   return toast.promise(
-    http.post("/users/create-user", data),
+    http.put("/posts/update-post", data),
     {
       pending: "Wait a sec!",
-      success: "User has been created",
+      success: "Post has been updated",
       error: "Unexception error",
     },
     {
@@ -44,31 +53,12 @@ export const createUserService = (data) => {
   );
 };
 
-export const deleteUserService = (id) => {
+export const deletePostService = (id) => {
   return toast.promise(
-    http.patch(`/users/${id}`),
+    http.patch(`/posts/${id}`),
     {
       pending: "Wait a sec!",
-      success: "User has been deleted",
-      error: "Unexception error",
-    },
-    {
-      autoClose: 5000,
-      hideProgressBar: false,
-      closeOnClick: true,
-      pauseOnHover: true,
-      draggable: true,
-      progress: undefined,
-      theme: "dark",
-    }
-  );
-};
-export const updateUserService = (data) => {
-  return toast.promise(
-    http.put("/users/update-user", data),
-    {
-      pending: "Wait a sec!",
-      success: "User has been updated",
+      success: "Post has been deleted",
       error: "Unexception error",
     },
     {
@@ -83,16 +73,12 @@ export const updateUserService = (data) => {
   );
 };
 
-export const getUserByIdService = (id) => {
-  return http.get(`/users/get-user-detail/${id}`);
-};
-
-export const changePasswordService = (data) => {
+export const blockPostService = (id) => {
   return toast.promise(
-    http.patch("/users/reset-password", data),
+    http.patch(`/posts/block-post/${id}`),
     {
       pending: "Wait a sec!",
-      success: "Change Password success!",
+      success: "Post has been blocked",
       error: "Unexception error",
     },
     {
@@ -107,12 +93,12 @@ export const changePasswordService = (data) => {
   );
 };
 
-export const changeAvatarService = (data) => {
+export const unBlockPostService = (id) => {
   return toast.promise(
-    http.put("/users/update-image-user", data),
+    http.patch(`/posts/unblock-post/${id}`),
     {
       pending: "Wait a sec!",
-      success: "Change Avatar success!",
+      success: "Post has been unblocked",
       error: "Unexception error",
     },
     {

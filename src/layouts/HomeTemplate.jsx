@@ -56,7 +56,7 @@ const HomeTemplate = () => {
       ) : (
         <>
           <Navbar name={role} />
-          <div className="grid grid-cols-12 py-2">
+          <div className="grid grid-cols-12 py-5">
             <div className="col-span-12 mb-4 mt-2 lg:m-0 lg:col-span-2">
               <SidebarLeft />
               {location.pathname === "/user-dashboard" ? (
