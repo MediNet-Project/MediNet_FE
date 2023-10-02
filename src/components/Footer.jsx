@@ -5,8 +5,8 @@ const Footer = () => {
   return (
     <div>
       <footer className="bg-light text-center text-white">
-        <div class="container p-4 pb-0">
-          <section class="mb-4">
+        <div className="container p-4 pb-0">
+          <section className="mb-4">
             <a
               className="font-medium rounded-lg text-sm sm:w-auto px-5 py-2.5 text-center hover:shadow-md hover:shadow-gray-400 transition-all duration-200 text-white m-1 bg-[#3b5998]"
               href="#!"

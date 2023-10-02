@@ -6,8 +6,10 @@ import {
 } from "@twilio-paste/core/media-object";
 import { Text } from "@twilio-paste/core";
 import { Avatar } from "@twilio-paste/core";
+import avatar from "../assets/img/anh-avatar-facebook-nu-toc-dai-buoc-no.jpg";
 import { Button } from "@twilio-paste/core/button";
 import { PlusIcon } from "@twilio-paste/icons/esm/PlusIcon";
+import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { Slide } from "react-toastify";
 import { CheckboxCheckIcon } from "@twilio-paste/icons/esm/CheckboxCheckIcon";
@@ -17,6 +19,7 @@ import {
 } from "../redux/action/follow-action";
 
 const SuggestFollowing = ({ item }) => {
+  const navigate = useNavigate();
   const dispatch = useDispatch();
   const userInLocal = JSON.parse(localStorage.getItem("userSignedIn"));
   const handleOnFollow = () => {
@@ -42,23 +45,27 @@ const SuggestFollowing = ({ item }) => {
           <Avatar
             size="sizeIcon90"
             name="Avatar"
-            href="/"
+            onClick={() => {
+              navigate(`/profile/${item?.id}`);
+            }}
             as="a"
             variant="entity"
-            src="/src/assets/img/post-img.png"
+            src={item?.image !== null ? item?.image : avatar}
           />
         </MediaFigure>
         <MediaBody>
           <Text as="h3" fontSize="fontSize40" lineHeight="lineHeight60">
             <Text
-              href="/"
+              onClick={() => {
+                navigate(`/profile/${item?.id}`);
+              }}
               as="a"
               color="inherit"
               fontSize="inherit"
               lineHeight="inherit"
               textDecoration="none"
             >
-              User Name
+              {item?.userName}
             </Text>
           </Text>
           <Text
@@ -67,7 +74,7 @@ const SuggestFollowing = ({ item }) => {
             lineHeight="lineHeight20"
             color="colorTextWeak"
           >
-            Position
+            {item?.position}
           </Text>
         </MediaBody>
         <MediaBody as="div" align="end" spacing="space40">

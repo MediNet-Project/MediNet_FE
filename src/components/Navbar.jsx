@@ -27,7 +27,6 @@ import {
   getUserSignedInDetailAction,
   logoutAction,
 } from "../redux/action/user-action";
-import { getUserByIdAction } from "../redux/action/user-action";
 import { useNavigate } from "react-router-dom";
 const Navbar = (props) => {
   const dispatch = useDispatch();

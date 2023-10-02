@@ -21,6 +21,10 @@ export const createFollowService = (data) => {
   );
 };
 
+export const getListFollowService = () => {
+  return http.get("/follows/get-list-follow");
+};
+
 export const deleteFollowService = (id) => {
   return toast.promise(
     http.patch(`/follows/delete-follow/${id}`),

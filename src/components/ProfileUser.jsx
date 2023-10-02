@@ -6,28 +6,18 @@ import { useSelector } from "react-redux";
 import { ProductSettingsIcon } from "@twilio-paste/icons/esm/ProductSettingsIcon";
 import { PlusIcon } from "@twilio-paste/icons/esm/PlusIcon";
 import { CheckboxCheckIcon } from "@twilio-paste/icons/esm/CheckboxCheckIcon";
-import { useParams } from "react-router-dom";
-import { useDispatch } from "react-redux";
-import { useEffect } from "react";
-import { getUserByIdAction } from "../redux/action/user-action";
 
-const ProfileUser = () => {
-  const { id } = useParams();
-  const dispatch = useDispatch();
-  useEffect(() => {
-    dispatch(getUserByIdAction(id));
-  }, []);
+const ProfileUser = ({ userInfor }) => {
   const [followPressed, setFollowPressed] = React.useState(false);
-  const userDetail = useSelector((state) => state.userReducer.userDetail);
   const userInLocal = JSON.parse(localStorage.getItem("userSignedIn"));
   const renderButton = () => {
-    if (userDetail.id == userInLocal.Id) {
+    if (userInfor?.id == userInLocal?.Id) {
       return (
         <Button
           variant="primary"
           size="small"
           onClick={() => {
-            navigate(`/profile/${userInLocal.Id}/update`);
+            navigate(`/profile/${userInLocal?.Id}/update`);
           }}
         >
           <ProductSettingsIcon decorative={false} title="Update Profile" />
@@ -60,16 +50,14 @@ const ProfileUser = () => {
   return (
     <div className="flex items-center p-5">
       <img
-        src={userDetail?.image !== null ? userDetail?.image : avatar}
+        src={userInfor?.image !== null ? userInfor?.image : avatar}
         className="w-[120px] h-[120px] rounded-lg object-cover"
       />
       <div className="w-full">
-        <h1 className="font-extrabold text-2xl pl-10">
-          {userDetail?.userName}
-        </h1>
-        <p className="text-lg text-gray-500 pl-10">{userDetail?.position}</p>
+        <h1 className="font-extrabold text-2xl pl-10">{userInfor?.userName}</h1>
+        <p className="text-lg text-gray-500 pl-10">{userInfor?.position}</p>
         <div className="flex justify-between">
-          <p className="text-lg text-gray-500 pl-10">{userDetail?.phone}</p>
+          <p className="text-lg text-gray-500 pl-10">{userInfor?.phone}</p>
           {renderButton()}
         </div>
       </div>

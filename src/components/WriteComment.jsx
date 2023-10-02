@@ -12,10 +12,6 @@ import { getUserByIdAction } from "../redux/action/user-action";
 const WriteComment = (props) => {
   const dispatch = useDispatch();
   const content = useRef(null);
-  const userDetail = useSelector((state) => state.userReducer.userDetail);
-  useEffect(() => {
-    dispatch(getUserByIdAction(userInLocal?.Id));
-  }, []);
   const userInLocal = JSON.parse(localStorage.getItem("userSignedIn"));
   const formik = useFormik({
     initialValues: {
@@ -28,11 +24,12 @@ const WriteComment = (props) => {
       content.current.value = "";
     },
   });
+
   return (
     <div className="rounded-lg border-2 h-fit shadow-sm shadow-gray-200 p-2 mb-1 ">
       <div className="flex items-stretch">
         <img
-          src={userDetail?.image !== null ? userDetail?.image : avatar}
+          src={userInLocal?.Image !== "" ? userInLocal?.Image : avatar}
           className="w-[40px] h-[40px] rounded-lg object-cover"
         />
         <div className="ml-2 h-fit w-full">
@@ -49,7 +46,7 @@ const WriteComment = (props) => {
                 className="font-medium rounded-lg text-sm sm:w-auto px-3 py-2.5 text-center hover:shadow-md hover:shadow-gray-400 transition-all duration-200 text-white m-1 bg-[#1473bb]"
                 onClick={formik.handleSubmit}
               >
-                <i class="fa-regular fa-paper-plane"></i>
+                <i className="fa-regular fa-paper-plane"></i>
               </a>
             </div>
           </div>

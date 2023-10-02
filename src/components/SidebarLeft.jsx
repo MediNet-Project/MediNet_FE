@@ -33,7 +33,7 @@ const SidebarLeft = () => {
         />
       ),
       label: "Trending",
-      link: "/",
+      link: "/trending",
     },
     {
       icon: (
@@ -83,7 +83,7 @@ const SidebarLeft = () => {
         />
       ),
       label: "Trending",
-      link: "/",
+      link: "/trending",
     },
     {
       icon: (

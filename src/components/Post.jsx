@@ -43,12 +43,15 @@ import {
   FileUploaderDropzone,
   FileUploaderDropzoneText,
 } from "@twilio-paste/core/file-uploader";
+import { PlusIcon } from "@twilio-paste/icons/esm/PlusIcon";
+import { CheckboxCheckIcon } from "@twilio-paste/icons/esm/CheckboxCheckIcon";
 import { useNavigate } from "react-router-dom";
 import { Navigation, Pagination, Mousewheel, Keyboard } from "swiper/modules";
 import { MoreIcon } from "@twilio-paste/icons/esm/MoreIcon";
 import moment from "moment/moment";
-const Post = ({ item }) => {
+const Post = ({ item, user, follow }) => {
   const navigate = useNavigate();
+  const [followPressed, setFollowPressed] = React.useState(false);
   const content = useRef(null);
   const [uploadImg, setUploadImg] = useState(null);
   const [isOpen, setIsOpen] = useState(false);
@@ -75,35 +78,15 @@ const Post = ({ item }) => {
   };
   const renderLikeIcon = () => {
     if (item?.reactionDTO.length > 0) {
-      return item?.reactionDTO.map((element) => {
-        if (element.userId == userInLocal.userId) {
-          return (
-            <ProductCodeExchangeCommunityIcon
-              decorative={false}
-              color="red"
-              size="sizeIcon40"
-              title="Comment"
-            />
-          );
-        } else {
-          return (
-            <ProductCodeExchangeCommunityIcon
-              decorative={false}
-              color="#DF3F47"
-              size="sizeIcon40"
-              title="Like"
-            />
-          );
+      let isLike = false;
+      item?.reactionDTO.map((ele) => {
+        if (ele?.userId == userInLocal?.Id) {
+          isLike = true;
         }
       });
+      return isLike;
     } else {
-      return (
-        <ProductCodeExchangeCommunityIcon
-          decorative={false}
-          size="sizeIcon40"
-          title="Like"
-        />
-      );
+      return false;
     }
   };
   const formik = useFormik({
@@ -138,6 +121,39 @@ const Post = ({ item }) => {
     }
   };
   const [likePressed, setLikePressed] = useState(false);
+  const renderFollowButton = (follow) => {
+    if (userInLocal.Role !== "Admin") {
+      follow?.map((element) => {
+        console.log(item);
+        if (
+          item?.userId !== element?.followingId &&
+          Number(userInLocal.Id) !== element?.folowerId
+        ) {
+          return (
+            <div>
+              <Button
+                variant="secondary_icon"
+                pressed={followPressed}
+                onClick={() => setFollowPressed(!followPressed)}
+              >
+                {followPressed ? (
+                  <div className="flex">
+                    <CheckboxCheckIcon decorative />
+                    <p>Following</p>
+                  </div>
+                ) : (
+                  <div className="flex">
+                    <PlusIcon decorative />
+                    <p>Follow</p>
+                  </div>
+                )}
+              </Button>
+            </div>
+          );
+        } else return <></>;
+      });
+    }
+  };
   const renderMenuMoreOption = () => {
     if (userInLocal?.Role === "Admin") {
       if (item?.isBlocked === false) {
@@ -454,7 +470,7 @@ const Post = ({ item }) => {
           </SwiperSlide>
         </Swiper>
       </div>
-      <div className="p-3 w-1/2">
+      <div key={item?.id} className="p-3 w-1/2">
         <div className="flex justify-between">
           <div className="flex items-stretch">
             <img
@@ -474,12 +490,13 @@ const Post = ({ item }) => {
                 {item?.userDTO.position}
               </p>
               <p className="text-[10px] text-gray-500 pl-1">
-                {/* {moment(item?.createdAt).format("LLLL")} */}
+                {moment(item?.createdAt).format("LLLL")}
                 {item?.createdAt}
               </p>
             </div>
           </div>
-          {renderMenuMoreOption()}
+          <div className="pt-1">{renderMenuMoreOption()}</div>
+          {/* {renderFollowButton(follow)} */}
         </div>
         <p className="text-justify pt-3">{item?.content}</p>
         <div className="flex mt-3">
@@ -493,7 +510,22 @@ const Post = ({ item }) => {
                 handleOnLikePost();
               }}
             >
-              {renderLikeIcon()}
+              {renderLikeIcon() ? (
+                <ProductCodeExchangeCommunityIcon
+                  key={Math.random()}
+                  decorative={false}
+                  color="#DF3F47"
+                  size="sizeIcon40"
+                  title="Like"
+                />
+              ) : (
+                <ProductCodeExchangeCommunityIcon
+                  key={Math.random()}
+                  decorative={false}
+                  size="sizeIcon40"
+                  title="Like"
+                />
+              )}
             </Button>
             <span className="pl-2 pt-1">{item?.likeCount}</span>
           </div>
@@ -508,8 +540,11 @@ const Post = ({ item }) => {
           </div>
         </div>
         <div className="w-full h-[1px] bg-gray-200 mb-3 mt-2"></div>
-        <WriteComment postId={item?.id} />
-        <div className="max-h-[200px] overflow-y-scroll w-full mt-3">
+        <WriteComment postId={item?.id} user={user} />
+        <div
+          className="max-h-[200px] overflow-y-scroll w-full mt-3"
+          key={Math.random()}
+        >
           {item?.commentDTO.map((item) => {
             return (
               <div key={Math.random()}>

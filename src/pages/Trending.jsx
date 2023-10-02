@@ -5,24 +5,26 @@ import { useDispatch } from "react-redux";
 import { getListPostAction } from "../redux/action/post-action";
 import Post from "../components/Post";
 import News from "../components/News";
+import { getListFollowAction } from "../redux/action/follow-action";
 
 const Trending = () => {
   const dispatch = useDispatch();
   const listPost = useSelector((state) => state.postReducer.listPost);
+  const listFollow = useSelector((state) => state.followReducer.listFollow);
   useEffect(() => {
     dispatch(getListPostAction());
+    dispatch(getListFollowAction());
   }, []);
-  const userSignedIn = useSelector((state) => state.userReducer.userSignedIn);
   return (
     <div className="ml-5">
       <div className="flex">
         <div className="w-2/3">
-          <div>
+          <div key={Math.random()}>
             {listPost?.map((item) => {
               if (item?.likeCount > 0) {
                 return (
                   <div className="mb-5" key={Math.random()}>
-                    <Post item={item} />
+                    <Post item={item} follow={listFollow} />
                   </div>
                 );
               } else return <></>;

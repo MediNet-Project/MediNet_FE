@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { Link, Outlet, useNavigate } from "react-router-dom";
 import Navbar from "../components/Navbar";
 import SidebarLeft from "../components/SidebarLeft";
+import { HubConnection, HubConnectionBuilder } from "@microsoft/signalr";
 import Footer from "../components/Footer";
 import { RoleEnum } from "../utils/enums/RoleEnums";
 import { Button } from "@twilio-paste/core/button";
@@ -14,6 +15,9 @@ const HomeTemplate = () => {
   const role = localStorage.getItem("role");
   const [showMenuMobi, setShowMenuMobi] = useState(true);
   const [showAdminNA, setShowAdminNA] = useState(false);
+  // const [connection, setConnection] =
+  //   (useState < null) | (HubConnection > null);
+  const [inputText, setInputText] = useState("");
   const [windowSize, setWindowSize] = useState({
     width: window.innerWidth,
   });
@@ -41,6 +45,28 @@ const HomeTemplate = () => {
       }
     }
   }, [windowSize.width]);
+
+  // useEffect(() => {
+  //   const connect = new HubConnectionBuilder()
+  //     .withUrl("http://localhost:4202/notification")
+  //     .withAutomaticReconnect()
+  //     .build();
+
+  //   setConnection(connect);
+  // }, []);
+
+  // useEffect(() => {
+  //   if (connection) {
+  //     connection
+  //       .start()
+  //       .then(() => {
+  //         connection.on("NewNotification", (message) => {
+  //           console.log(message);
+  //         });
+  //       })
+  //       .catch((error) => console.log(error));
+  //   }
+  // }, [connection]);
 
   return (
     <>

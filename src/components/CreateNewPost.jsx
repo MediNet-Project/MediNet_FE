@@ -23,7 +23,7 @@ const CreateNewPost = () => {
   const userInLocal = JSON.parse(localStorage.getItem("userSignedIn"));
   useEffect(() => {
     dispatch(getUserByIdAction(userInLocal?.Id));
-  }, []);
+  }, [userInLocal?.Id]);
   const userDetail = useSelector((state) => state.userReducer.userDetail);
   const [uploadImg, setUploadImg] = useState(null);
   const formik = useFormik({
@@ -106,7 +106,7 @@ const CreateNewPost = () => {
               className="rounded-lg text-sm sm:w-auto px-5 py-3 text-center hover:shadow-md hover:shadow-gray-400 transition-all duration-200 text-white m-1 bg-[#1473bb]"
               onClick={formik.handleSubmit}
             >
-              <i class="fa-regular fa-paper-plane"></i>
+              <i className="fa-regular fa-paper-plane"></i>
             </a>
           </div>
         </div>

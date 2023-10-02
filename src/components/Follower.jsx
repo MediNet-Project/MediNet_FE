@@ -1,9 +1,11 @@
 import React from "react";
 import { Text } from "@twilio-paste/core";
 import { Avatar } from "@twilio-paste/core";
+import { useNavigate } from "react-router-dom";
 import img from "../assets/img/anh-avatar-facebook-nu-toc-dai-buoc-no.jpg";
 
-const Follower = () => {
+const Follower = (props) => {
+  const navigate = useNavigate();
   return (
     <div className="px-2 py-3 w-full bg-[#E5E5E5] rounded-lg flex flex-col items-center">
       <div className="mx-auto">
@@ -11,24 +13,28 @@ const Follower = () => {
           <Avatar
             size="sizeIcon100"
             name="Avatar"
-            href="/"
+            onClick={() => {
+              navigate(`/profile/${props?.item?.followerId}`);
+            }}
             as="a"
             variant="entity"
-            src={img}
+            src={props?.item?.image !== null ? props?.item?.image : img}
           />
         </div>
       </div>
       <div className="text-center">
         <Text as="h3" fontSize="fontSize40" lineHeight="lineHeight60">
           <Text
-            href="/"
             as="a"
             color="inherit"
             fontSize="inherit"
             lineHeight="inherit"
             textDecoration="none"
+            onClick={() => {
+              navigate(`/profile/${props?.item?.followerId}`);
+            }}
           >
-            User Name
+            {props?.item?.userName}
           </Text>
         </Text>
       </div>
@@ -39,7 +45,7 @@ const Follower = () => {
           lineHeight="lineHeight20"
           color="colorTextWeak"
         >
-          Position
+          {props?.item?.position}
         </Text>
       </div>
     </div>

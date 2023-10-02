@@ -47,7 +47,7 @@ const UpdateProfile = () => {
   const userDetail = useSelector((state) => state.userReducer.userDetail);
   useEffect(() => {
     dispatch(getUserByIdAction(id));
-  }, []);
+  }, [id]);
   const userInLocal = JSON.parse(localStorage.getItem("userSignedIn"));
   const formikUserInfo = useFormik({
     enableReinitialize: true,

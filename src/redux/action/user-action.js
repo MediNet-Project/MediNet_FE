@@ -25,7 +25,7 @@ export const loginAction = (data, navigate) => {
       localStorage.setItem("refreshToken", result.refreshToken);
       const decodedData = jwt(result.accessToken);
       localStorage.setItem("userSignedIn", JSON.stringify(decodedData));
-      navigate("/");
+      navigate("/trending");
       dispatch(loginReducer(result));
     } catch (error) {
       console.log(error);
@@ -38,7 +38,7 @@ export const logoutAction = (navigate) => {
     localStorage.removeItem("userSignedIn");
     localStorage.removeItem("accessToken");
     dispatch(logoutReducer());
-    navigate("/login");
+    navigate("/");
   };
 };
 

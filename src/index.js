@@ -31,7 +31,7 @@ root.render(
       <Routes>
         <Route path="/" element={<App />}>
           <Route element={<HomeTemplate />}>
-            <Route index path="/" element={<Trending />} />
+            <Route index path="/trending" element={<Trending />} />
             <Route index path="/profile/:id" element={<Profile />} />
             <Route
               index
@@ -59,7 +59,7 @@ root.render(
           </Route>
           <Route element={<FormTemplate />}>
             <Route
-              path="/login"
+              path="/"
               element={<Login />}
               lazy={() => import("./pages/Auth/Login")}
             />

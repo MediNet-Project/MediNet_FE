@@ -10,6 +10,7 @@ import { getListPostAction } from "../../redux/action/post-action";
 const HomePage = () => {
   const dispatch = useDispatch();
   const listPost = useSelector((state) => state.postReducer.listPost);
+
   useEffect(() => {
     dispatch(getListPostAction());
   }, []);
