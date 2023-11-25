@@ -7,24 +7,32 @@ import { useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { getListPostAction } from "../../redux/action/post-action";
 import { getUserByIdAction } from "../../redux/action/user-action";
+import { Spinner } from "@chakra-ui/react";
 
 const HomePage = () => {
   const dispatch = useDispatch();
-  const listPost = useSelector((state) => state.postReducer.listPost);
+  const listPost = useSelector((state) => state.postReducer.listPost); // all post
   const userDetail = useSelector((state) => state.userReducer.userDetail);
   const userInLocal = JSON.parse(localStorage.getItem("userSignedIn"));
+
   // list post of login user
-  const newListPost = listPost.filter(
-    (item) =>
-      item.userId === Number(userInLocal.Id) ||
-      item.userId === userDetail?.followingDTO?.followingId
+  const currentUserPosts = listPost.filter(
+    (item) => item.userId === Number(userInLocal.Id)
   );
+
+  // list following id
+  const listId = userDetail?.followingDTO?.map((a) => a.followingId);
+
+  // list post of following user
+  const followingPosts = listPost.filter(
+    (item) => listId.indexOf(item.userId) !== -1
+  );
+
+  const newListPost = currentUserPosts.concat(followingPosts);
 
   useEffect(() => {
     dispatch(getListPostAction());
     dispatch(getUserByIdAction(Number(userInLocal.Id)));
-    console.log("a", listPost);
-    console.log("user", newListPost);
   }, []);
 
   return (
@@ -32,7 +40,7 @@ const HomePage = () => {
       <div className="w-2/3">
         <CreateNewPost />
         <div>
-          {listPost?.map((item) => {
+          {newListPost?.map((item) => {
             if (item?.isBlocked === false) {
               return (
                 <div className="my-5" key={Math.random()}>
