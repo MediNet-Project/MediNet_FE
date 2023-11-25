@@ -2,7 +2,6 @@ import React from "react";
 import verticalLogo from "../../assets/img/logo_vertical.png";
 import emailIcon from "../../assets/svg/email.svg";
 import passwordIcon from "../../assets/svg/password.svg";
-import { FormControl, FormErrorMessage } from "@chakra-ui/react";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import { useDispatch } from "react-redux";

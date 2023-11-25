@@ -23,6 +23,7 @@ const Profile = () => {
   const listPost = useSelector((state) => state.postReducer.listPost);
   const { id } = useParams();
   const userDetail = useSelector((state) => state.userReducer.userDetail);
+
   useEffect(() => {
     dispatch(getListPostAction());
     dispatch(getUserByIdAction(id));
@@ -39,9 +40,12 @@ const Profile = () => {
           </TabList>
           <TabPanels>
             <TabPanel>
-              <div key={Math.random()}>
+              <div>
                 {listPost?.map((item) => {
-                  if (item?.userId === userDetail?.id) {
+                  if (
+                    item?.userId === userDetail?.id &&
+                    item?.isBlocked === false
+                  ) {
                     return (
                       <div className="w-2/3 my-5 mx-auto" key={item.id}>
                         <Post key={item?.id} item={item} user={userDetail} />

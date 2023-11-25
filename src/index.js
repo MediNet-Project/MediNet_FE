@@ -23,6 +23,7 @@ import CreateUser from "./pages/Admin/User/CreateUser";
 import UpdateUser from "./pages/Admin/User/UpdateUser";
 import FundDashboard from "./pages/Admin/FundDashboard";
 import StatisticDashboard from "./pages/Admin/StatisticDashboard";
+import ManagePosts from "./pages/Admin/ManagePosts";
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
   <>
@@ -39,6 +40,7 @@ root.render(
               element={<UpdateProfile />}
             />
             <Route path="/home" element={<HomePage />} />
+            <Route path="/manage-posts" element={<ManagePosts />} />
             <Route index path="/user-dashboard" element={<UserDashboard />} />
             <Route
               index

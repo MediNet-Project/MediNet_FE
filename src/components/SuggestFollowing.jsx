@@ -23,15 +23,16 @@ const SuggestFollowing = ({ item }) => {
   const dispatch = useDispatch();
   const userInLocal = JSON.parse(localStorage.getItem("userSignedIn"));
   const handleOnFollow = () => {
+    setFollowPressed(!followPressed);
     if (userInLocal) {
       if (followPressed) {
+        dispatch(deleteFollowAction());
+      } else {
         const followObject = {
-          userId: Number(userInLocal.Id),
-          followerId: item.id,
+          followingId: item.id,
+          followerId: Number(userInLocal.Id),
         };
         dispatch(createFollowAction(followObject));
-      } else {
-        dispatch(deleteFollowAction());
       }
     } else {
       alert.info("Please sign in first !", null, Slide, "dark");
@@ -80,8 +81,10 @@ const SuggestFollowing = ({ item }) => {
         <MediaBody as="div" align="end" spacing="space40">
           <Button
             variant="secondary_icon"
-            pressed={followPressed}
-            onClick={() => setFollowPressed(!followPressed)}
+            // pressed={followPressed}
+            onClick={() => {
+              handleOnFollow();
+            }}
           >
             {followPressed ? (
               <div className="flex">

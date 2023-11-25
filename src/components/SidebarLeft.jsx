@@ -37,6 +37,18 @@ const SidebarLeft = () => {
     },
     {
       icon: (
+        <ProductHomeIcon
+          decorative={false}
+          color="#DF3F47"
+          size="sizeIcon40"
+          title="Management Posts"
+        />
+      ),
+      label: "Management Posts",
+      link: "/manage-posts",
+    },
+    {
+      icon: (
         <CommunityIcon
           decorative={false}
           color="#DF3F47"

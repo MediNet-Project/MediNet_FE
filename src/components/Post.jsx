@@ -64,6 +64,7 @@ const Post = ({ item, user, follow }) => {
   const dispatch = useDispatch();
   const userInLocal = JSON.parse(localStorage.getItem("userSignedIn"));
   const postDetail = useSelector((state) => state.postReducer.postDetail);
+  const [connection, setConnection] = useState(null);
   const handleOnLikePost = () => {
     if (userInLocal) {
       const likeObject = {
@@ -72,10 +73,30 @@ const Post = ({ item, user, follow }) => {
         like: likePressed,
       };
       dispatch(likePostAction(likeObject));
+      // sendMessage(userInLocal.Id);
     } else {
       alert.info("Please sign in first !", null, Slide, "dark");
     }
   };
+  // const sendMessage = async (userId) => {
+  //   if (!connection) {
+  //     console.error("No connection");
+  //     return;
+  //   }
+  //   if (connection.state !== "Connected") {
+  //     try {
+  //       await connection.start();
+  //       console.log("Reconnected to SignalR");
+  //       connection
+  //         .invoke("OnConnectedAsync", userId.toString())
+  //         .then((response) => response)
+  //         .catch((error) => console.log("Error sending request:", error));
+  //     } catch (error) {
+  //       console.log("Error connecting to SignalR Hub:", error);
+  //       return;
+  //     }
+  //   }
+  // };
   const renderLikeIcon = () => {
     if (item?.reactionDTO.length > 0) {
       let isLike = false;

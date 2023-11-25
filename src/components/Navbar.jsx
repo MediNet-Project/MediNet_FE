@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { NavLink } from "react-router-dom";
 import logoHorizontal from "../assets/img/logo-horizontal.png";
 import { Input } from "@twilio-paste/core/input";
@@ -27,17 +27,34 @@ import {
   getUserSignedInDetailAction,
   logoutAction,
 } from "../redux/action/user-action";
+import { getListNotiAction } from "../redux/action/notification-action";
 import { useNavigate } from "react-router-dom";
+import { HubConnection, HubConnectionBuilder } from "@microsoft/signalr";
 const Navbar = (props) => {
   const dispatch = useDispatch();
-  const userSignedIn = useSelector((state) => state.userReducer.userSignedIn);
+  const userSignedIn = useSelector((state) => {
+    let u = state.userReducer.userSignedIn;
+    if (u) {
+      return u;
+    } else {
+      if (localStorage.getItem("userSignedIn")) {
+        return JSON.parse(localStorage.getItem("userSignedIn"));
+      }
+    }
+  });
   const navigate = useNavigate();
   const userInLocal = JSON.parse(localStorage.getItem("userSignedIn"));
+  const [openNoti, setOpenNoti] = useState(false);
+  const [loading, setLoading] = useState(true);
+  const token = localStorage.getItem("accessToken");
+  const [connection, setConnection] = useState(null);
+
   useEffect(() => {
     if (userInLocal) {
       dispatch(getUserSignedInDetailAction(Number(userInLocal?.Id)));
     }
   }, []);
+
   return (
     <div className="py-2 px-3 w-full rounded-sm bg-white border-2 border-red-500 h-fit shadow-md shadow-gray-400">
       <div className="header flex justify-between mx-auto">
@@ -71,13 +88,31 @@ const Navbar = (props) => {
               color="#1473BB"
             />
           </div>
-          <div className="mx-2">
+          <div
+            onClick={() => {
+              setOpenNoti(!openNoti);
+            }}
+            className="mx-2 relative cursor-pointer"
+          >
             <NotificationIcon
               decorative={false}
               title="Notification"
               size="sizeIcon50"
               color="#1473BB"
             />
+            <div
+              className={`${
+                openNoti ? "block" : "hidden"
+              } arrow-up right-[-5.5px] absolute`}
+            ></div>
+            <div
+              className={`${
+                openNoti ? "open-noti" : "close-noti"
+              }  shadow-md shadow-gray-400 absolute right-[-3rem] top-[2.5rem] z-30 rounded-md bg-white duration-200 transition-all overflow-y-scroll`}
+            >
+              {" "}
+              <p>notification</p>
+            </div>
           </div>
 
           <div className="mx-2">

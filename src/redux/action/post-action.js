@@ -41,7 +41,6 @@ export const getPostByIdAction = (id) => {
     try {
       const result = await getPostByIdService(id);
       dispatch(getPostByIdReducer(result));
-      console.log(result);
     } catch (error) {
       console.log(error);
     }

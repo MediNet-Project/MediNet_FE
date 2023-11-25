@@ -21,7 +21,7 @@ const Trending = () => {
         <div className="w-2/3">
           <div key={Math.random()}>
             {listPost?.map((item) => {
-              if (item?.likeCount > 0) {
+              if (item?.likeCount > 0 && item?.isBlocked === false) {
                 return (
                   <div className="mb-5" key={Math.random()}>
                     <Post item={item} follow={listFollow} />

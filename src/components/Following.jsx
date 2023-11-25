@@ -4,10 +4,33 @@ import { useNavigate } from "react-router-dom";
 import { Avatar, Card } from "@twilio-paste/core";
 import { Button } from "@twilio-paste/core/button";
 import img from "../assets/img/anh-avatar-facebook-nu-toc-dai-buoc-no.jpg";
+import { useDispatch } from "react-redux";
+import {
+  createFollowAction,
+  deleteFollowAction,
+} from "../redux/action/follow-action";
+import { PlusIcon } from "@twilio-paste/icons/esm/PlusIcon";
 
 const Following = (props) => {
   const navigate = useNavigate();
+  const dispatch = useDispatch();
+  const userInLocal = JSON.parse(localStorage.getItem("userSignedIn"));
   const [followPressed, setFollowPressed] = React.useState(false);
+
+  const followObject = {
+    followingId: props.item.followingId,
+    followerId: Number(userInLocal.Id),
+  };
+
+  const handleClickFollow = () => {
+    setFollowPressed(!followPressed);
+    dispatch(createFollowAction(followObject));
+  };
+
+  const handleClickUnFollow = () => {
+    setFollowPressed(!followPressed);
+    dispatch(deleteFollowAction(props.item.id));
+  };
   return (
     <div className="px-2 py-3 w-full bg-[#E5E5E5] rounded-lg flex flex-col items-center">
       <div className="mx-auto">
@@ -51,21 +74,18 @@ const Following = (props) => {
         </Text>
       </div>
       <div className="pb-2 text-center">
-        <Button
-          variant="secondary_icon"
-          pressed={followPressed}
-          onClick={() => setFollowPressed(!followPressed)}
-        >
-          {followPressed ? (
+        {followPressed ? (
+          <Button onClick={handleClickFollow}>
             <div className="flex">
+              <PlusIcon decorative />
               <p>Follow</p>
             </div>
-          ) : (
-            <div className="flex">
-              <p className="text-[#df3f47]">Unfollow</p>
-            </div>
-          )}
-        </Button>
+          </Button>
+        ) : (
+          <Button onClick={handleClickUnFollow} variant="secondary_icon">
+            <p className="text-red-600">Unfollow</p>
+          </Button>
+        )}
       </div>
     </div>
   );
