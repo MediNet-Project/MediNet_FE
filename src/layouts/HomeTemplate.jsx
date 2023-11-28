@@ -103,7 +103,7 @@ const HomeTemplate = () => {
               )}
             </div>
 
-            <div className="col-span-12 lg:col-span-10">
+            <div className="col-span-12 lg:col-span-10 w-full">
               <Outlet />
             </div>
           </div>

@@ -6,6 +6,7 @@ import { getListPostAction } from "../redux/action/post-action";
 import Post from "../components/Post";
 import News from "../components/News";
 import { getListFollowAction } from "../redux/action/follow-action";
+import { getUserByIdAction } from "../redux/action/user-action";
 
 const Trending = () => {
   const dispatch = useDispatch();

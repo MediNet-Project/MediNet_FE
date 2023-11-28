@@ -57,13 +57,13 @@ const Navbar = (props) => {
 
   return (
     <div className="py-2 px-3 w-full rounded-sm bg-white border-2 border-red-500 h-fit shadow-md shadow-gray-400">
-      <div className="header flex justify-between mx-auto">
+      <div className="header flex justify-between mx-auto text-center items-center">
         <div
           onClick={() => {
             navigate("/home");
           }}
         >
-          <img className="w-40 object-contain" src={logoHorizontal} alt="" />
+          <img className="w-20 md:w-40 object-contain" src={logoHorizontal} alt="" />
         </div>
         <div className="w-1/3 pt-2">
           <Combobox
@@ -76,11 +76,11 @@ const Navbar = (props) => {
             onChange={() => {}}
           />
         </div>
-        <p className="text-color-blue mt-4">
+        <p className="text-color-blue mt-4 hidden md:block">
           Welcome, {userSignedIn?.userName}
         </p>
         <div className="flex justify-between mt-3">
-          <div className="mx-2">
+          <div className="mx-2 hidden md:block">
             <ChatIcon
               decorative={false}
               title="Messenger"
@@ -92,7 +92,7 @@ const Navbar = (props) => {
             onClick={() => {
               setOpenNoti(!openNoti);
             }}
-            className="mx-2 relative cursor-pointer"
+            className="mx-2 relative cursor-pointer hidden md:block"
           >
             <NotificationIcon
               decorative={false}
