@@ -78,7 +78,7 @@ const StatisticDashboard = () => {
     labels: mostCmtPost?.map((item) => item?.content),
     datasets: [
       {
-        label: "Post with most reaction",
+        label: "Post with most comment",
         borderColor: "rgba(75, 192, 192, 0.6)",
         backgroundColor: "rgba(75, 192, 192, 0.4)",
         borderWidth: 2,
